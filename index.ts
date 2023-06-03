@@ -1,9 +1,9 @@
-const { Confirm, Input, MultiSelect, Numeral } = require('enquirer');
+const { Confirm, MultiSelect, Numeral } = require('enquirer');
 
 async function main() {
-    console.log("==================================================================")
-    console.log("                     CSV USER DATA GENERATOR                      ")
-    console.log("==================================================================")
+    console.log("==================================================================");
+    console.log("                     CSV USER DATA GENERATOR                      ");
+    console.log("==================================================================");
 
     const desiredRows: number = await new Numeral({
         message: 'How many rows would you like the CSV to have?',
@@ -34,7 +34,7 @@ async function main() {
 
     let fileSizeLimit: number;
     if (sizeLimitRequested) {
-        fileSizeLimit = await new Input({
+        fileSizeLimit = await new Numeral({
             message: 'Enter the desired file size in megabytes (ex. 1024 equals 1GB)'
         }).run();
     }
@@ -43,7 +43,7 @@ async function main() {
     console.log(`Starting CSV document generation...`);
     console.log('Row Count:', desiredRows);
     console.log('Columns Selected:', desiredColumns);
-    console.log(`File size limited:`, fileSizeLimit || 'Not Limited');
+    console.log('File size limited:', fileSizeLimit || 'Not Limited');
     console.log("==================================================================");
 }
 
