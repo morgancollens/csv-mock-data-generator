@@ -1,13 +1,13 @@
-const { Confirm, Input, MultiSelect } = require('enquirer');
+const { Confirm, Input, MultiSelect, Numeral } = require('enquirer');
 
 async function main() {
     console.log("==================================================================")
     console.log("                     CSV USER DATA GENERATOR                      ")
     console.log("==================================================================")
 
-    const desiredRows: number = await new Input({
+    const desiredRows: number = await new Numeral({
         message: 'How many rows would you like the CSV to have?',
-        initial: '20',
+        initial: 20,
     }).run();
 
     const desiredColumns: string[] = await new MultiSelect({
