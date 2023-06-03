@@ -14,20 +14,10 @@ async function main() {
 
     const desiredColumns: string[] = await new MultiSelect({
         message: 'Select all of the different column types you with to include in the CSV using the arrow keys and spacebar, then press Enter',
-        choices: [
-            {
-                name: CsvColumns.email,
-                value: CsvColumns.email,
-            },
-            {
-                name: CsvColumns.firstName,
-                value: CsvColumns.firstName,
-            },
-            {
-                name: CsvColumns.lastName,
-                value: CsvColumns.lastName,
-            }
-        ]
+        choices: Object.values(CsvColumns).map((val) => ({
+            name: val,
+            valuue: val
+        }))
     }).run();
 
     const sizeLimitRequested: boolean = await new Confirm({

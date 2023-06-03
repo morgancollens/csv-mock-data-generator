@@ -5,10 +5,20 @@ import { CsvColumns } from './constants';
 
 const customFaker = new Faker({ "locale": [en, de] });
 
+interface DataMethodOptions {
+    firstName: string,
+    lastName: string,
+    provider: string,
+}
+
 const DataMethods = {
     [CsvColumns.email]: customFaker.internet.email,
-    [CsvColumns.firstName]: customFaker.person.firstName,
-    [CsvColumns.lastName]: customFaker.person.lastName,
+    [CsvColumns.firstName]: (data: DataMethodOptions): string => data.firstName,
+    [CsvColumns.lastName]: (data: DataMethodOptions): string => data.lastName,
+    [CsvColumns.middleName]: customFaker.person.middleName,
+    [CsvColumns.city]: customFaker.location.city,
+    [CsvColumns.jobTitle]: customFaker.person.jobTitle,
+    [CsvColumns.userName]: customFaker.internet.userName,
 };
 
 function _calculateDataSizeInMB(data: string[] | string[][]) {
@@ -17,20 +27,35 @@ function _calculateDataSizeInMB(data: string[] | string[][]) {
     const dataSizeInMB = dataSizeInBytes / (1024 * 1024);
 
     return dataSizeInMB;
-}
+};
 
 function _generateDataRow(columns: string[]): string[] {
     const values = [];
 
+    // By fetching a full name we are able to base other values, like the "email"
+    // or "username" off of it. (ex. "John Doe" => "john.doe@example.com")
+    let fullName = customFaker.person.fullName().split(' ');
+
+    // Ensures that we trim a title (Mr., Mrs., Dr.) if it exists.
+    if (/Mister|Miss|\./i.test(fullName[0])) {
+        fullName = [fullName[1], fullName[2]]
+    }
+
+    const options: DataMethodOptions = {
+        firstName: fullName[0],
+        lastName: fullName[1],
+        provider: 'example.com'
+    };
+
     columns.forEach((col) => {
         const mockDataFunc = DataMethods[col];
         if (mockDataFunc) {
-            values.push(mockDataFunc());
+            values.push(mockDataFunc(options));
         }
     });
 
     return values;
-}
+};
 
 /**
  * When provided with a desired number of rows, a set of header columns, and optionally a file size limit,
