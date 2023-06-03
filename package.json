@@ -1,0 +1,16 @@
+{
+  "name": "csv-mock-data-generator",
+  "version": "1.0.0",
+  "description": "A simple tool built in typescript used to generate a CSV containing a mocked set of user data.",
+  "main": "index.ts",
+  "scripts": {
+    "start": "tsc && node dist/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Morgan Collens",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^20.2.5",
+    "typescript": "^5.1.3"
+  }
+}
