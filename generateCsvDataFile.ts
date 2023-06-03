@@ -71,7 +71,7 @@ export async function generateCsvDataFile(rows: number, columns: string[], fileS
         columns, // Header row
     ];
 
-    for (let i = 0; i <= rows; i++) {
+    for (let i = 0; i <= rows - 1; i++) {
         data.push(_generateDataRow(columns));
 
         if (fileSize) {
