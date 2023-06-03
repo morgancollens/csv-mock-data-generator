@@ -1,3 +1,5 @@
+import { CsvColumns } from "./constants";
+import { generateCsvDataFile } from "./generateCsvDataFile";
 const { Confirm, MultiSelect, Numeral } = require('enquirer');
 
 async function main() {
@@ -11,19 +13,19 @@ async function main() {
     }).run();
 
     const desiredColumns: string[] = await new MultiSelect({
-        message: 'Select all of the different column types you with to include in the CSV',
+        message: 'Select all of the different column types you with to include in the CSV using the arrow keys and spacebar, then press Enter',
         choices: [
             {
-                name: 'Email',
-                value: 'Email',
+                name: CsvColumns.email,
+                value: CsvColumns.email,
             },
             {
-                name: 'First Name',
-                value: 'First Name',
+                name: CsvColumns.firstName,
+                value: CsvColumns.firstName,
             },
             {
-                name: 'Last Name',
-                value: 'Last Name',
+                name: CsvColumns.lastName,
+                value: CsvColumns.lastName,
             }
         ]
     }).run();
@@ -44,6 +46,8 @@ async function main() {
     console.log('Row Count:', desiredRows);
     console.log('Columns Selected:', desiredColumns);
     console.log('File size limited:', fileSizeLimit || 'Not Limited');
+    const filepath = await generateCsvDataFile(desiredRows, desiredColumns, fileSizeLimit);
+    console.log('CSV file successfully generated and stored at:', filepath);
     console.log("==================================================================");
 }
 
