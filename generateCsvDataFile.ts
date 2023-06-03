@@ -18,6 +18,7 @@ const DataMethods = {
     [CsvColumns.middleName]: customFaker.person.middleName,
     [CsvColumns.city]: customFaker.location.city,
     [CsvColumns.jobTitle]: customFaker.person.jobTitle,
+    [CsvColumns.company]: customFaker.company.name,
     [CsvColumns.userName]: customFaker.internet.userName,
 };
 
@@ -50,7 +51,11 @@ function _generateDataRow(columns: string[]): string[] {
     columns.forEach((col) => {
         const mockDataFunc = DataMethods[col];
         if (mockDataFunc) {
-            values.push(mockDataFunc(options));
+
+            // Note: We are specifically enclosing the value returned from
+            // mockDataFunc in double quotes in case it contains a comma, as this breaks
+            // CSV formatting.
+            values.push(`"${mockDataFunc(options)}"`);
         }
     });
 

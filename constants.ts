@@ -5,5 +5,6 @@ export enum CsvColumns {
     middleName = "Middle Name",
     city = "City",
     jobTitle = "Job Title",
-    userName = "User Name"
+    company = "Company",
+    userName = "User Name",
 };
